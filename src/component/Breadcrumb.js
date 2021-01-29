@@ -1,47 +1,47 @@
-import React from 'react'
-import useBreadcrumb from '../hooks/useBreadcrumb'
-import CollapseBreadcrumb from './CollapseBreadcrumb'
+import React from 'react';
+import useBreadcrumbState from '../hooks/useBreadcrumbState';
+import CollapseBreadcrumb from './CollapseBreadcrumb';
 
 const BreadcrumbItem = ({ children, ...props }) => (
   <li className='breadcrumb-item' {...props}>
     {children}
   </li>
-)
+);
 
 const BreadcrumbSeparator = ({ children, ...props }) => (
   <li className='breadcrumb-separator' {...props}>
     {children}
   </li>
-)
+);
 
 const Breadcrumb = ({ separator, collapse = {}, ...props }) => {
-  let children = React.Children.toArray(props.children)
+  let children = React.Children.toArray(props.children);
 
-  const { expanded, open } = useBreadcrumb()
+  const { expanded, open } = useBreadcrumbState();
 
-  const { itemsBefore = 1, itemsAfter = 1, max = 4 } = collapse
+  const { itemsBefore = 1, itemsAfter = 1, max = 4 } = collapse;
 
-  const totalItems = children.length
-  const lastIndex = totalItems - 1
+  const totalItems = children.length;
+  const lastIndex = totalItems - 1;
 
   children = children.map((child, index) => (
     <BreadcrumbItem key={`breadcrumb_item${index}`}>{child}</BreadcrumbItem>
-  ))
+  ));
 
   children = children.reduce((acc, child, index) => {
-    const notLast = index < lastIndex
+    const notLast = index < lastIndex;
     if (notLast) {
       acc.push(
         child,
         <BreadcrumbSeparator key={`breadcrumb_sep${index}`}>
           {separator}
-        </BreadcrumbSeparator>,
-      )
+        </BreadcrumbSeparator>
+      );
     } else {
-      acc.push(child)
+      acc.push(child);
     }
-    return acc
-  }, [])
+    return acc;
+  }, []);
 
   if (!expanded || totalItems <= max) {
     children = [
@@ -51,11 +51,11 @@ const Breadcrumb = ({ separator, collapse = {}, ...props }) => {
         key='collapsed-seperator'
         onClick={open}
       />,
-      ...children.slice(totalItems - itemsAfter, totalItems),
-    ]
+      ...children.slice(totalItems - itemsAfter, totalItems)
+    ];
   }
 
-  return <ol>{children}</ol>
-}
+  return <ol>{children}</ol>;
+};
 
-export default Breadcrumb
+export default Breadcrumb;

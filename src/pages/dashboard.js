@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const Dashboard = ({ children }) => (
+const Dashboard = () => (
   <div>
     <h2>Dashboard</h2>
-    <div>{children}</div>
   </div>
-)
+);
 
-export default Dashboard
+export default Dashboard;

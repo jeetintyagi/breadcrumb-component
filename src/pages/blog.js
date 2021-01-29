@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const Blog = ({ children }) => (
+const Blog = () => (
   <div>
     <h2>Blog</h2>
-    <div>{children}</div>
   </div>
-)
+);
 
-export default Blog
+export default Blog;

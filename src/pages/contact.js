@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const Contact = ({ children }) => (
+const Contact = () => (
   <div>
     <h2>Contact</h2>
-    <div>{children}</div>
   </div>
-)
+);
 
-export default Contact
+export default Contact;
