@@ -1,10 +1,10 @@
 import React from 'react';
 import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom';
-import Home from './pages/home';
-import Dashboard from './pages/dashboard';
-import Contact from './pages/contact';
-import About from './pages/about';
-import Blog from './pages/blog';
+import Home from './screens/home';
+import Dashboard from './screens/dashboard';
+import Contact from './screens/contact';
+import About from './screens/about';
+import Blog from './screens/blog';
 import Breadcrumb from './component/Breadcrumb';
 import './App.css';
 
@@ -19,7 +19,7 @@ const BreadcrumbItems = [
 const App = () => (
   <div className='App'>
     <Router>
-      <Breadcrumb separator='/'>
+      <Breadcrumb separator='▶'>
         {BreadcrumbItems.map(({ to, label }) => (
           <Link key={to} to={to}>
             {label}

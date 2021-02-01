@@ -3,11 +3,15 @@ import { useState } from 'react';
 const useBreadcrumb = () => {
   const [expanded, setExpanded] = useState(false);
 
-  const open = () => setExpanded(true);
+  const expandTheBreadcrumb = () => setExpanded(true);
+  const collapseTheBreadcrumb = () => {
+    setExpanded(false);
+  };
   // to manage the close and expanded state of breadcrumb items
   return {
     expanded,
-    open
+    expandTheBreadcrumb,
+    collapseTheBreadcrumb
   };
 };
 

@@ -2,30 +2,38 @@ import React from 'react';
 import useBreadcrumbState from '../hooks/useBreadcrumbState';
 import CollapseBreadcrumb from './CollapseBreadcrumb';
 
-const BreadcrumbItem = ({ children, ...props }) => (
-  <li className='breadcrumb-item' {...props}>
+const BreadcrumbLink = ({ children, ...rest }) => (
+  <li className='breadcrumb-item' {...rest}>
     {children}
   </li>
 );
 
-const BreadcrumbSeparator = ({ children, ...props }) => (
-  <li className='breadcrumb-separator' {...props}>
+const BreadcrumbDivider = ({ children, ...rest }) => (
+  <li className='breadcrumb-separator' {...rest}>
     {children}
   </li>
 );
 
-const Breadcrumb = ({ separator, collapse = {}, ...props }) => {
-  let children = React.Children.toArray(props.children);
+const Breadcrumb = ({ separator, collapse = {}, ...rest }) => {
+  let children = React.Children.toArray(rest.children);
 
-  const { expanded, open } = useBreadcrumbState();
+  const {
+    expanded,
+    expandTheBreadcrumb,
+    collapseTheBreadcrumb
+  } = useBreadcrumbState();
 
-  const { itemsBefore = 1, itemsAfter = 1, max = 4 } = collapse;
+  const {
+    breadcrumbLinksBefore = 1,
+    breadcrumbLinksAfter = 1,
+    maxBreadcrumbLimit = 4
+  } = collapse;
 
-  const totalItems = children.length;
-  const lastIndex = totalItems - 1;
+  const totalbreadcrumbLinks = children.length;
+  const lastIndex = totalbreadcrumbLinks - 1;
 
   children = children.map((child, index) => (
-    <BreadcrumbItem key={`breadcrumb_item${index}`}>{child}</BreadcrumbItem>
+    <BreadcrumbLink key={`breadcrumb_item${index}`}>{child}</BreadcrumbLink>
   ));
 
   children = children.reduce((acc, child, index) => {
@@ -33,9 +41,12 @@ const Breadcrumb = ({ separator, collapse = {}, ...props }) => {
     if (notLast) {
       acc.push(
         child,
-        <BreadcrumbSeparator key={`breadcrumb_sep${index}`}>
+        <BreadcrumbDivider
+          key={`breadcrumb_sep${index}`}
+          onClick={collapseTheBreadcrumb}
+        >
           {separator}
-        </BreadcrumbSeparator>
+        </BreadcrumbDivider>
       );
     } else {
       acc.push(child);
@@ -43,15 +54,20 @@ const Breadcrumb = ({ separator, collapse = {}, ...props }) => {
     return acc;
   }, []);
 
-  if (!expanded || totalItems <= max) {
+  // if breadcrumb bar is collapsed or
+  // total breadcrumbs is less than the maximum limit
+  if (!expanded || totalbreadcrumbLinks <= maxBreadcrumbLimit) {
     children = [
-      ...children.slice(0, itemsBefore),
+      ...children.slice(0, breadcrumbLinksBefore),
       <CollapseBreadcrumb
         title='Expand'
         key='collapsed-seperator'
-        onClick={open}
+        onClick={expandTheBreadcrumb}
       />,
-      ...children.slice(totalItems - itemsAfter, totalItems)
+      ...children.slice(
+        totalbreadcrumbLinks - breadcrumbLinksAfter,
+        totalbreadcrumbLinks
+      )
     ];
   }
 
