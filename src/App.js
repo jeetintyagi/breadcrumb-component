@@ -19,7 +19,7 @@ const BreadcrumbItems = [
 const App = () => (
   <div className='App'>
     <Router>
-      <Breadcrumb separator='▶'>
+      <Breadcrumb separator=' '>
         {BreadcrumbItems.map(({ to, label }) => (
           <Link key={to} to={to}>
             {label}

@@ -32,10 +32,17 @@ const Breadcrumb = ({ separator, collapse = {}, ...rest }) => {
   const totalbreadcrumbLinks = children.length;
   const lastIndex = totalbreadcrumbLinks - 1;
 
+  // onDoubleCLick the breadcrumb is collapsed
   children = children.map((child, index) => (
-    <BreadcrumbLink key={`breadcrumb_item${index}`}>{child}</BreadcrumbLink>
+    <BreadcrumbLink
+      onDoubleClick={collapseTheBreadcrumb}
+      key={`breadcrumb_item${index}`}
+    >
+      {child}
+    </BreadcrumbLink>
   ));
 
+  // onCLick on the breadcrumb-sepearator the breadcrumb is collapsed
   children = children.reduce((acc, child, index) => {
     const notLast = index < lastIndex;
     if (notLast) {
@@ -56,6 +63,8 @@ const Breadcrumb = ({ separator, collapse = {}, ...rest }) => {
 
   // if breadcrumb bar is collapsed or
   // total breadcrumbs is less than the maximum limit
+  // onCLick on the breadcrumb-svg "•••" the breadcrumb is expanded
+
   if (!expanded || totalbreadcrumbLinks <= maxBreadcrumbLimit) {
     children = [
       ...children.slice(0, breadcrumbLinksBefore),
@@ -71,7 +80,7 @@ const Breadcrumb = ({ separator, collapse = {}, ...rest }) => {
     ];
   }
 
-  return <ol>{children}</ol>;
+  return <ol className='breadcrumb-item'>{children}</ol>;
 };
 
 export default Breadcrumb;
